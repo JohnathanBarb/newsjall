@@ -2,7 +2,7 @@ test:
 	uv run pytest . -s
 
 run:
-	uv run fastapi run src/main.py
+	uv run fastapi run src/main.py --reload
 
 typecheck:
 	uv run mypy .
