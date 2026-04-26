@@ -8,14 +8,11 @@ from src.users.service import UserService
 users_router = APIRouter()
 
 
-@users_router.post(
-    "",
-    response_model=CreateUserOutput,
-)
+@users_router.post("")
 async def create_user(
     create_user_payload: CreateUserInput,
     service: UserService = Depends(get_user_service),
-):
+) -> CreateUserOutput:
     try:
         return await service.create(create_user_payload)
 

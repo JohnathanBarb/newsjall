@@ -12,5 +12,7 @@ def verify_password(raw_password: str, hashed_password: str) -> bool:
     return _password_hash.verify(raw_password, hashed_password)
 
 
-def verify_and_update_password(raw_password: str, hashed_password: str):
+def verify_and_update_password(
+    raw_password: str, hashed_password: str
+) -> tuple[bool, str | None]:
     return _password_hash.verify_and_update(raw_password, hashed_password)
