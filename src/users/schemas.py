@@ -10,9 +10,9 @@ class CreateUserInput(BaseModel):
     password: str
 
 
-class CreateUserOutput(CreateUserInput):
+class CreateUserOutput(BaseModel):
     id: UUID
-    name: str
     email: str
+    name: str
     created_at: datetime
     updated_at: datetime
