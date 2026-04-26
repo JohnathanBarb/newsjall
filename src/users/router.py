@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from src.users.dependencies import get_user_service
+from src.users.exceptions import UserAlreadyExistsException
 from src.users.schemas import CreateUserInput, CreateUserOutput
 from src.users.service import UserService
 
@@ -15,4 +16,11 @@ async def create_user(
     create_user_payload: CreateUserInput,
     service: UserService = Depends(get_user_service),
 ):
-    return await service.create(create_user_payload)
+    try:
+        return await service.create(create_user_payload)
+
+    except UserAlreadyExistsException:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Email is already in use",
+        )

@@ -1,3 +1,4 @@
+from src.users.exceptions import UserAlreadyExistsException
 from src.users.repository import UserRepository
 from src.users.schemas import CreateUserInput, CreateUserOutput
 
@@ -7,7 +8,8 @@ class UserService:
         self.repo = repo
 
     async def create(self, user_create_payload: CreateUserInput) -> CreateUserOutput:
-        # TODO: verify email is not duplicated
+        if await self.repo.get_by_email(user_create_payload.email):
+            raise UserAlreadyExistsException()
 
         # TODO: hash password
 
