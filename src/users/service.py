@@ -1,3 +1,4 @@
+from src.auth.security import hash_password
 from src.users.exceptions import UserAlreadyExistsException
 from src.users.repository import UserRepository
 from src.users.schemas import CreateUserInput, CreateUserOutput
@@ -13,11 +14,11 @@ class UserService:
 
         # TODO: hash password
 
-        hash_password = user_create_payload.password
+        hashed_password = hash_password(user_create_payload.password)
 
         user = await self.repo.create(
             email=user_create_payload.email,
-            hash_password=hash_password,
+            hashed_password=hashed_password,
             name=user_create_payload.name,
         )
 

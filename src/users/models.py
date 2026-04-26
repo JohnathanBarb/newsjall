@@ -8,4 +8,4 @@ class User(Base, UUIDMixin, CreatedAtUpdatedAtMixin):
 
     email: Mapped[str] = mapped_column(unique=True, index=True)
     name: Mapped[str]
-    hash_password: Mapped[str]
+    hashed_password: Mapped[str]

@@ -15,10 +15,10 @@ class UserRepository:
     async def create(
         self,
         email: str,
-        hash_password: str,
+        hashed_password: str,
         name: str,
     ) -> User:
-        user = User(email=email, hash_password=hash_password, name=name)
+        user = User(email=email, hashed_password=hashed_password, name=name)
         self.db.add(user)
         await self.db.flush()
         return user
