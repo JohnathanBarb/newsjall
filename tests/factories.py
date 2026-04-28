@@ -7,7 +7,6 @@ from src.users.models import User
 
 
 async def make_user(db_session: AsyncSession, **overrides) -> User:
-
     defaults = {
         "email": f"{uuid.uuid4()}@example.com",
         "name": "Test User",

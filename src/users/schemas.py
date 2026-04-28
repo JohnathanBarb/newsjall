@@ -10,6 +10,7 @@ class CreateUserInput(BaseModel):
     password: str
 
 
+# TODO: rename it to UserOutput
 class CreateUserOutput(BaseModel):
     id: UUID
     email: str
