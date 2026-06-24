@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Literal
 
 import jwt
@@ -33,7 +33,7 @@ def create_token(
     ttl: timedelta,
     extra_claims: dict[str, str] | None,
 ) -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     payload = {
         "sub": subject,
         "iat": int(now.timestamp()),

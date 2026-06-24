@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from src.auth.dependencies import get_auth_service
-from src.auth.exceptions import InvalidCredentialsException
+from src.auth.exceptions import InvalidCredentialsError
 from src.auth.schemas import LoginRequestInput, TokenPairOutput
 from src.auth.service import AuthService
 
@@ -18,8 +18,8 @@ async def login(
             email=payload.email,
             password=payload.password,
         )
-    except InvalidCredentialsException:
+    except InvalidCredentialsError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email ou password",
-        )
+        ) from exc

@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from src.auth.exceptions import InvalidCredentialsException
+from src.auth.exceptions import InvalidCredentialsError
 from src.auth.schemas import TokenPairOutput
 from src.auth.security import create_token, verify_password
 from src.core.config import settings
@@ -17,7 +17,7 @@ class AuthService:
             raw_password=password,
             hashed_password=user.hashed_password,
         ):
-            raise InvalidCredentialsException()
+            raise InvalidCredentialsError()
 
         return TokenPairOutput(
             access_token=create_token(

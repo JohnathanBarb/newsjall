@@ -1,7 +1,7 @@
 import uuid
 
 from src.auth.security import hash_password
-from src.users.exceptions import UserAlreadyExistsException
+from src.users.exceptions import UserAlreadyExistsError
 from src.users.models import User
 from src.users.repository import UserRepository
 from src.users.schemas import CreateUserInput, CreateUserOutput
@@ -28,7 +28,7 @@ class UserService:
 
     async def create(self, user_create_payload: CreateUserInput) -> CreateUserOutput:
         if await self.repo.get_by_email(user_create_payload.email):
-            raise UserAlreadyExistsException()
+            raise UserAlreadyExistsError()
 
         hashed_password = hash_password(user_create_payload.password)
 

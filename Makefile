@@ -1,3 +1,7 @@
+venv:
+	uv sync --all-extras
+
+
 test:
 	uv run pytest . -s
 

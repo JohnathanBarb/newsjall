@@ -9,11 +9,11 @@ dependencies = [
     "pwdlib[argon2]>=0.3.0",
     "pyjwt>=2.12.1",
     "sqlalchemy>=2.0.49",
+    "asyncpg>=0.31.0"
 ]
 
 [dependency-groups]
 dev = [
-    "asyncpg>=0.31.0",
     "ipdb>=0.13.13",
     "mypy>=1.20.1",
     "pytest>=9.0.3",
@@ -24,11 +24,17 @@ dev = [
 
 
 [tool.mypy]
-plugins = ["pydantic.mypy"]
+plugins = [
+    "pydantic.mypy",
+    "sqlalchemy.ext.mypy.plugin",
+]
 strict = true
 warn_unreachable = true
 warn_redundant_casts = true
 warn_unused_ignores = true
+warn_return_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
 enable_error_code = [
     "redundant-expr",
     "truthy-bool",
@@ -50,6 +56,53 @@ disallow_incomplete_defs = false
 check_untyped_defs = true
 warn_return_any = false
 
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+respect-gitignore = true
+
+[tool.ruff.lint]
+select = [
+    "E",   # erros do pycodestyle
+    "W",   # avisos do pycodestyle
+    "F",   # pyflakes
+    "I",   # isort (imports)
+    "N",   # pep8-naming
+    "UP",  # pyupgrade (sintaxe moderna)
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking (imports de tipo)
+]
+
+ignore = [
+    "E501",  # linha muito longa, o formatador vai lidar com isso
+    "B008",  # reclama de Depends(...)
+]
+# Regras que podem ser corrigidas automaticamente
+fixable = ["ALL"]
+
+# Regras que NÃO devem ser corrigidas
+unfixable = ["S"]  # flake8-bandit
+
+per-file-ignores = {
+    "__init__.py" = ["F401", "D104"],  # imports não usados em __init__ são comuns
+    "tests/**/*.py" = ["D", "S", "TCH"],  # testes não precisam de docstrings
+}
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+preview = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
